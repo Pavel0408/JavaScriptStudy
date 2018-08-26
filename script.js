@@ -1,11 +1,8 @@
-var num=+prompt("Введите число","");
-var power=+prompt("Введите степень","");
-function pow(num,power) {
-  if(power==1){
-    return num;
-  }
-  else {
-    return num*pow(num,power-1);
-  }
+var num1=+prompt("Введите число","");
+
+function fib(num) {
+  return (num<=1)?num: fib(num-1)+fib(num-2);
 }
-alert(pow(num,power));
+var x=fib(num1)
+
+alert(x);
