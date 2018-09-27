@@ -1,8 +1,7 @@
-var num1=+prompt("Введите число","");
-
-function fib(num) {
-  return (num<=1)?num: fib(num-1)+fib(num-2);
+var num1 = +prompt("Введите число", "");
+var fibBinet = function (n) {
+  var f = (1 + Math.sqrt(5)) / 2;
+  var fib = (Math.pow(f,n))/Math.sqrt(5);
+  return Math.round(fib);
 }
-var x=fib(num1)
-
-alert(x);
+alert(fibBinet(num1));
