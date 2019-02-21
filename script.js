@@ -1,22 +1,19 @@
-export function removeClass(obj, cls) {
-  let ownCls = obj.className;
-  if (!ownCls) {
-    return;
-  }
-  ownCls = ownCls.split(` `);
-  let counter;
-  do {
-    counter = 0;
-    ownCls.forEach((element, index) => {
-      if (element === cls) {
-        ownCls.splice(index, 1);
-        counter++;
-      }
+'use strict';
 
+// A Narcissistic Number is a number which is the sum of its own digits, each raised to the power of the number of digits in a given base.
+// In this Kata, we will restrict ourselves to decimal (base 10).
 
-    });
-  } while (counter !== 0);
-  obj.className = ownCls.join(` `);
-  obj.className = obj.className.trim();
+// For example, take 153 (3 digits):
+
+//     1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153
+
+function narcissistic(value) {
+  const valueArr = (value + ``).split(``);
+  valueArr.forEach((item, index) => {
+    valueArr[index] = Math.pow(+item, valueArr.length);
+  });
+  const result = valueArr.reduce((sum, current) => {
+    return sum + current;
+  });
+  return value === result;
 }
-
