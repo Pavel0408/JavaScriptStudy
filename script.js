@@ -1,19 +1,31 @@
 'use strict';
 
-// A Narcissistic Number is a number which is the sum of its own digits, each raised to the power of the number of digits in a given base.
-// In this Kata, we will restrict ourselves to decimal (base 10).
+// Создайте функцию filter(arr, func), которая получает массив arr и возвращает новый, в который входят только те элементы arr, для которых func возвращает true.
+// Создайте набор «готовых фильтров»: inBetween(a,b) – «между a,b», inArray([...]) – "в массиве [...]". Использование должно быть таким:
+// filter(arr, inBetween(3,6)) – выберет только числа от 3 до 6,
+// filter(arr, inArray([1,2,3])) – выберет только элементы, совпадающие с одним из значений массива.
 
-// For example, take 153 (3 digits):
-
-//     1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153
-
-function narcissistic(value) {
-  const valueArr = (value + ``).split(``);
-  valueArr.forEach((item, index) => {
-    valueArr[index] = Math.pow(+item, valueArr.length);
+function filter(arr, func) {
+  const newArr = [];
+  arr.forEach((elem) => {
+    if (func(elem)) {
+      newArr.push(elem);
+    }
   });
-  const result = valueArr.reduce((sum, current) => {
-    return sum + current;
-  });
-  return value === result;
+  return newArr;
+}
+
+function inBetween(a, b) {
+  return function (elem) {
+    return ((elem >= a) && (elem <= b));
+  };
+}
+
+function inArray(arr) {
+  return function (elem) {
+    if (arr.indexOf(elem) === -1) {
+      return false;
+    }
+    return true;
+  };
 }
