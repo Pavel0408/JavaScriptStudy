@@ -1,32 +1,60 @@
-'use strict';
+function Machine(power) {
+  this._power = power;
+  this._enabled = false;
 
-// Напишите конструктор Calculator, который создаёт расширяемые объекты-калькуляторы.
+  let self = this;
 
-// Эта задача состоит из двух частей, которые можно решать одна за другой.
-
-// Первый шаг задачи: вызов calculate(str) принимает строку, например «1 + 2», с жёстко заданным форматом «ЧИСЛО операция ЧИСЛО» (по одному пробелу вокруг операции), и возвращает результат. Понимает плюс + и минус -.
-
-// Второй шаг – добавить калькулятору метод addMethod(name, func), который учит калькулятор новой операции. Он получает имя операции name и функцию от двух аргументов func(a,b), которая должна её реализовывать.
-
-// Например, добавим операции умножить *, поделить / и возвести в степень **:
-
-function Calculator() {
-  this.calculate = (str) => {
-    const strArr = str.split(` `);
-    const [a, operator, b] = strArr;
-    if (this[operator]) {
-      return this[operator](a, b);
-    }
-    if (operator === `+`) {
-      return +a + +b;
-    }
-    if (operator === `-`) {
-      return +a - b;
-    }
-    return `Я не знаю тaкого оператора`;
+  this.enable = function () {
+    self._enabled = true;
   };
 
-  this.addMethod = (operator, func) => {
-    this[operator] = func;
+  this.disable = function () {
+    self._enabled = false;
+  };
+}
+
+function Fridge(...args) {
+  Machine.apply(this, args);
+
+  this._power = this._power / 100;
+
+  this._food = [];
+
+  const machineDisable = this.disable;
+
+  this.disable = () => {
+    if (this._food.length) {
+      throw new Error(`В холодильнике еда`);
+    }
+    machineDisable();
+  };
+
+  this.addFood = (...food) => {
+    this._food.concat(food);
+
+    if (!this._enabled) {
+      throw new Error(`Включите холодильник`);
+    }
+
+    if (this._food.length + food.length > this._power) {
+      throw new Error(`Слишком много продуктов`);
+    }
+    this._food = this._food.concat(food);
+  };
+
+  this.getFood = () => {
+    const food = this._food.slice();
+    return food;
+  };
+
+  this.removeFood = (item) => {
+    this._food = this._food.filter((it) => {
+      return it.title !== item.title;
+    });
+
+    this.filterFood = (func) => {
+      const filtredFood = this._food.filter(func);
+      return filtredFood;
+    };
   };
 }
