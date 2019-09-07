@@ -1,60 +1,45 @@
-function Machine(power) {
-  this._power = power;
-  this._enabled = false;
+let time = null;
+let timerId = null;
 
-  let self = this;
+const hoursElement = document.querySelector(`.hours`);
+const minutesElement = document.querySelector(`.minutes`);
+const secondsElement = document.querySelector(`.seconds`);
 
-  this.enable = function () {
-    self._enabled = true;
-  };
+function addZero(number) {
+  if (number < 10) {
+    return `0` + number;
+  }
 
-  this.disable = function () {
-    self._enabled = false;
-  };
+  return number;
 }
 
-function Fridge(...args) {
-  Machine.apply(this, args);
+function updateTime() {
+  time = new Date();
 
-  this._power = this._power / 100;
+  const hours = time.getHours();
+  const minutes = time.getMinutes();
+  const seconds = time.getSeconds();
 
-  this._food = [];
-
-  const machineDisable = this.disable;
-
-  this.disable = () => {
-    if (this._food.length) {
-      throw new Error(`В холодильнике еда`);
-    }
-    machineDisable();
-  };
-
-  this.addFood = (...food) => {
-    this._food.concat(food);
-
-    if (!this._enabled) {
-      throw new Error(`Включите холодильник`);
-    }
-
-    if (this._food.length + food.length > this._power) {
-      throw new Error(`Слишком много продуктов`);
-    }
-    this._food = this._food.concat(food);
-  };
-
-  this.getFood = () => {
-    const food = this._food.slice();
-    return food;
-  };
-
-  this.removeFood = (item) => {
-    this._food = this._food.filter((it) => {
-      return it.title !== item.title;
-    });
-
-    this.filterFood = (func) => {
-      const filtredFood = this._food.filter(func);
-      return filtredFood;
-    };
-  };
+  hoursElement.textContent = addZero(hours);
+  minutesElement.textContent = addZero(minutes);
+  secondsElement.textContent = addZero(seconds);
 }
+
+function init() {
+  time = new Date();
+  start();
+}
+
+function start() {
+  updateTime();
+  time = time + 1000;
+  timerId = setTimeout(start, 1000);
+}
+
+function stop() {
+  clearTimeout(timerId);
+}
+
+init();
+document.querySelector(`.start`).addEventListener(`click`, start);
+document.querySelector(`.stop`).addEventListener(`click`, stop);

@@ -1,20 +1,31 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <style>
+    .hours {
+      color: red;
+    }
 
-<head>
-  <meta charset="utf-8">
-</head>
+    .minutes {
+      color: green;
+    }
 
-<body>
+    .seconds {
+      color: blue;
+    }
+  </style>
 
-  <p>Вводим информацию: </p>
+  <body>
+    <div id="#clock">
+      <span class="hours">11</span> : <span class="minutes">12</span> :
+      <span class="seconds">14</span>
+    </div>
 
-  <script src="script.js">
-   
-  </script>
+    <button class="start">Старт</button>
+    <button class="stop">Стоп</button>
 
-  
-
-</body>
-
+    <script src="script.js"></script>
+  </body>
 </html>
